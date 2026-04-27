@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Rocha's English Class: Cambridge C1 Listening Test 1</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- html2pdf for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#0B0F19',
+                            panel: '#1A2333',
+                            neon: '#00F0FF',
+                            purple: '#8A2BE2',
+                            green: '#00FF66',
+                            red: '#FF003C'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Futuristic Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(26, 35, 51, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        /* Glowing Buttons */
+        .btn-glow {
+            background: linear-gradient(45deg, #00F0FF, #0080FF);
+            color: #0B0F19;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.8);
+            transform: translateY(-2px);
+        }
+        .btn-glow:disabled {
+            background: #475569;
+            box-shadow: none;
+            cursor: not-allowed;
+            color: #94A3B8;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #00F0FF;
+            color: #00F0FF;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        /* Inputs */
+        input[type="text"], input[type="date"], select {
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid #00F0FF;
+            color: #fff;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+            color-scheme: dark; /* Add this line to force dark mode calendar icon on some browsers */
+        }
+        input[type="text"]:focus, input[type="date"]:focus, select:focus {
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+        
+        /* Make calendar icon explicitly visible in Chrome/Webkit */
+        ::-webkit-calendar-picker-indicator {
+            background: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300F0FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            opacity: 1;
+        }
+
+        /* Inline blanks for Activity 2 */
+        .inline-blank {
+            display: inline-block;
+            width: 150px;
+            margin: 0 5px;
+            border-bottom: 2px solid #00F0FF;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-radius: 0;
+            padding: 2px 5px;
+            background: transparent;
+            text-align: center;
+        }
+
+        /* Custom Radio Buttons */
+        .radio-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            user-select: none;
+        }
+        .radio-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: rgba(11, 15, 25, 0.8);
+            border: 1px solid #00F0FF;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .radio-container:hover input ~ .checkmark {
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+        .radio-container input:checked ~ .checkmark {
+            background-color: #00F0FF;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .radio-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .radio-container .checkmark:after {
+            top: 7px;
+            left: 7px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #0B0F19;
+        }
+
+        /* Audio Player Styling */
+        audio {
+            filter: invert(90%) hue-rotate(180deg);
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        /* Feedback Styles */
+        .correct-text { color: #00FF66; font-weight: bold; }
+        .incorrect-text { color: #FF003C; font-weight: bold; }
+        .correct-bg { background-color: rgba(0, 255, 102, 0.1) !important; border-color: #00FF66 !important; }
+        .incorrect-bg { background-color: rgba(255, 0, 60, 0.1) !important; border-color: #FF003C !important; }
+
+        /* Progress Bar */
+        #progress-fill {
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* PDF Export Mode overrides */
+        body.pdf-export-mode {
+            background: #ffffff !important;
+            color: #000000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .pdf-export-mode .glass-panel {
+            background: #ffffff !important;
+            border: 1px solid #ccc !important;
+            box-shadow: none !important;
+            color: #000000 !important;
+            page-break-inside: avoid;
+        }
+        .pdf-export-mode h1, .pdf-export-mode h2, .pdf-export-mode h3 {
+            color: #000000 !important;
+        }
+        .pdf-export-mode .radio-container {
+            color: #000 !important;
+        }
+        .pdf-export-mode input, .pdf-export-mode select {
+            color: #000 !important;
+            background: #fff !important;
+            border: 1px solid #000 !important;
+        }
+        .pdf-header {
+            display: none;
+        }
+        .pdf-export-mode .pdf-header {
+            display: block;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d32f2f !important;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        .pdf-export-mode .no-print {
+            display: none !important;
+        }
+        .pdf-export-mode .section {
+            display: block !important;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+<div id="app-container" class="max-w-5xl mx-auto relative">
+    
+    <!-- PDF ONLY Header -->
+    <div id="pdf-header" class="pdf-header font-display">
+        Send PDF results by WhatsApp to Mr. Rocha to get credit: 33-3497-1997
+    </div>
+
+    <!-- Main Header -->
+    <header class="glass-panel p-6 mb-8 text-center relative z-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-cyber-neon mb-2 shadow-cyan">Mr. Rocha’s English Class</h1>
+        <h2 class="text-xl md:text-2xl text-gray-300">Cambridge C1 Listening Test 1</h2>
+        
+        <div id="student-info-display" class="mt-4 hidden text-lg font-semibold text-cyber-purple">
+            Student: <span id="display-name" class="text-white"></span> | Date: <span id="display-date" class="text-white"></span>
+        </div>
+
+        <div id="timer-container" class="hidden absolute top-6 right-6 flex items-center gap-2 text-xl font-display font-bold text-cyber-neon">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span id="timer">60:00</span>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div id="progress-container" class="hidden w-full h-2 bg-gray-800 rounded-full mb-8 overflow-hidden">
+        <div id="progress-fill" class="h-full bg-cyber-neon w-0 shadow-[0_0_10px_#00F0FF]"></div>
+    </div>
+
+    <main id="main-content">
+        <!-- SCREEN 0: SETUP -->
+        <section id="section-setup" class="section glass-panel p-8 text-center active-section">
+            <h3 class="text-2xl mb-6 text-white font-display">Welcome to the Assessment</h3>
+            <p class="mb-8 text-gray-400">Please enter your details below to begin the 60-minute test.</p>
+            
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-8">
+                <input type="text" id="student-name" placeholder="Enter your full name" class="w-full md:w-64">
+                <input type="date" id="test-date" class="w-full md:w-64">
+            </div>
+            
+            <button onclick="startTest()" class="btn-glow font-bold py-3 px-8 rounded-lg text-lg uppercase tracking-wider">
+                Start Activity
+            </button>
+        </section>
+
+        <!-- SECTION 1: ACTIVITY 1 -->
+        <section id="section-1" class="section hidden glass-panel p-6 md:p-8 relative">
+            <h3 class="text-2xl font-display text-cyber-neon mb-4">Activity 1 (Part 1)</h3>
+            <p class="mb-4">You will hear three different extracts. For questions 1 - 6, choose the answer (A, B or C) which fits best according to what you hear. There are two questions for each extract.</p>
+            
+            <div class="bg-black/40 p-4 rounded-lg mb-6">
+                <p class="text-sm text-gray-400 mb-2">Play Audio 1</p>
+                <audio controls src="audio1.mp3"></audio>
+            </div>
+
+            <div class="space-y-8" id="act1-questions">
+                <!-- Extract 1 -->
+                <div>
+                    <h4 class="font-bold text-lg text-cyber-purple mb-2">Extract 1</h4>
+                    <p class="italic text-gray-400 mb-4">You hear two managers talking about interviewing people for jobs.</p>
+                    
+                    <div class="mb-6 question-block" data-q="q1">
+                        <p class="mb-3">1. The man and the woman both say that job candidates should display</p>
+                        <label class="radio-container">A. evidence of initiative. <input type="radio" name="q1" value="A"><span class="checkmark"></span></label>
+                        <label class="radio-container">B. good communication skills. <input type="radio" name="q1" value="B"><span class="checkmark"></span></label>
+                        <label class="radio-container">C. relevant previous experience. <input type="radio" name="q1" value="C"><span class="checkmark"></span></label>
+                        <div class="feedback mt-2 text-sm"></div>
+                    </div>
+
+                    <div class="mb-6 question-block" data-q="q2">
+                        <p class="mb-3">2. The woman says that a person she recently interviewed</p>
+                        <label class="radio-container">A. did insufficient research about the company. <input type="radio" name="q2" value="A"><span class="checkmark"></span></label>
+                        <label class="radio-container">B. failed to demonstrate an ability to work in a team. <input type="radio" name="q2" value="B"><span class="checkmark"></span></label>
+                        <label class="radio-container">C. revealed her lack of interest in the post she was applying for. <input type="radio" name="q2" value="C"><span class="checkmark"></span></label>
+                        <div class="feedback mt-2 text-sm"></div>
+                    </div>
+                </div>
+
+                <!-- Extract 2 -->
+                <div>
+                    <h4 class="font-bold text-lg text-cyber-purple mb-2">Extract 2</h4>
+                    <p class="italic text-gray-400 mb-4">You hear two friends discussing online learning compared to college-based learning.</p>
+                    
+                    <div class="mb-6 question-block" data-q="q3">
+                        <p class="mb-3">3. Why does the woman think an on line course would be better than a college course for the man?</p>
+                        <label class="radio-container">A. It would be more likely to meet his particular needs. <input type="radio" name="q3" value="A"><span class="checkmark"></span></label>
+                        <label class="radio-container">B. He would receive more personal attention. <input type="radio" name="q3" value="B"><span class="checkmark"></span></label>
+                        <label class="radio-container">C. It would be easier to prepare for. <input type="radio" name="q3" value="C"><span class="checkmark"></span></label>
+                        <div class="feedback mt-2 text-sm"></div>
+                    </div>
+
+                    <div class="mb-6 question-block" data-q="q4">
+                        <p class="mb-3">4. The woman warns the man that if he does an online course, he might</p>
+                        <label class="radio-container">A. have problems focussing on his studies. <input type="radio" name="q4" value="A"><span class="checkmark"></span></label>
+                        <label class="radio-container">B. need to cut back on his social life. <input type="radio" name="q4" value="B"><span class="checkmark"></span></label>
+                        <label class="radio-container">C. find his job prospects limited. <input type="radio" name="q4" value="C"><span class="checkmark"></span></label>
+                        <div class="feedback mt-2 text-sm"></div>
+                    </div>
+                </div>
+
+                <!-- Extract 3 -->
+                <div>
+                    <h4 class="font-bold text-lg text-cyber-purple mb-2">Extract 3</h4>
+                    <p class="italic text-gray-400 mb-4">You hear two friends talking about the jetlag they suffer after long aeroplane flights.</p>
+                    
+                    <div class="mb-6 question-block" data-q="q5">
+                        <p class="mb-3">5. How does the man feel when he has jetlag?</p>
+                        <label class="radio-container">A. surprised by his inability to remember things <input type="radio" name="q5" value="A"><span class="checkmark"></span></label>
+                        <label class="radio-container">B. frustrated with the monotony of everyday tasks <input type="radio" name="q5" value="B"><span class="checkmark"></span></label>
+                        <label class="radio-container">C. relieved at the understanding shown by superiors <input type="radio" name="q5" value="C"><span class="checkmark"></span></label>
+                        <div class="feedback mt-2 text-sm"></div>
+                    </div>
+
+                    <div class="mb-6 question-block" data-q="q6">
+                        <p class="mb-3">6. What is the woman doing when talking to her friend about jetlag?</p>
+                        <label class="radio-container">A. evaluating remedies <input type="radio" name="q6" value="A"><span class="checkmark"></span></label>
+                        <label class="radio-container">B. justifying a misunderstanding <input type="radio" name="q6" value="B"><span class="checkmark"></span></label>
+                        <label class="radio-container">C. praising recent findings <input type="radio" name="q6" value="C"><span class="checkmark"></span></label>
+                        <div class="feedback mt-2 text-sm"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex justify-between items-center no-print">
+                <button disabled class="btn-secondary py-2 px-6 rounded opacity-50 cursor-not-allowed">Previous</button>
+                <button onclick="checkAnswers(1)" id="check-btn-1" class="btn-secondary py-2 px-6 rounded text-cyber-neon border-cyber-neon hover:bg-cyber-neon hover:text-black">Check Answers</button>
+                <button onclick="navSection(2)" class="btn-glow py-2 px-6 rounded">Next</button>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ACTIVITY 2 -->
+        <section id="section-2" class="section hidden glass-panel p-6 md:p-8 relative">
+            <h3 class="text-2xl font-display text-cyber-neon mb-4">Activity 2</h3>
+            <p class="mb-4">You will hear a student called Tara Watkins talking about her work as a volunteer on a wildlife reserve in South Africa. For questions 7- 14, complete the sentences with a word or short phrase.</p>
+            
+            <div class="bg-black/40 p-4 rounded-lg mb-6">
+                <p class="text-sm text-gray-400 mb-2">Play Audio 2</p>
+                <audio controls src="audio2.mp3"></audio>
+            </div>
+
+            <div class="bg-cyber-panel/50 p-6 rounded-lg leading-relaxed text-lg" id="act2-questions">
+                <h4 class="font-bold text-xl text-center mb-6 border-b border-cyber-purple pb-2">Working on a wildlife reserve in South Africa</h4>
+                
+                <p class="mb-4 question-block" data-q="q7">Tara went to the wildlife reserve in South Africa because the work there related to her university course on (7) <input type="text" id="q7" class="inline-blank" autocomplete="off">. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q8">Tara was excited about doing research into (8) <input type="text" id="q8" class="inline-blank" autocomplete="off"> on the wildlife reserve. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q9">When she arrived, Tara found travelling by (9) <input type="text" id="q9" class="inline-blank" autocomplete="off"> was rather difficult. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q10">Tara uses the word (10) <input type="text" id="q10" class="inline-blank" autocomplete="off"> to describe how she feels about the scenery of the wildlife reserve. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q11">Finding that (11) <input type="text" id="q11" class="inline-blank" autocomplete="off"> generated energy at the lodge was a pleasant surprise for Tara. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q12">Tara personally found the variety of tasks that volunteers did in the reserve (12) <input type="text" id="q12" class="inline-blank" autocomplete="off">. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q13">Tara felt the task she did near the (13) <input type="text" id="q13" class="inline-blank" autocomplete="off"> would provide vital data for further work. <span class="feedback text-sm block mt-1"></span></p>
+                
+                <p class="mb-4 question-block" data-q="q14">Rangers used the expression (14) <input type="text" id="q14" class="inline-blank" autocomplete="off"> to emphasise the importance of the volunteers' contribution to conservation. <span class="feedback text-sm block mt-1"></span></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex justify-between items-center no-print">
+                <button onclick="navSection(1)" class="btn-secondary py-2 px-6 rounded">Previous</button>
+                <button onclick="checkAnswers(2)" id="check-btn-2" class="btn-secondary py-2 px-6 rounded text-cyber-neon border-cyber-neon hover:bg-cyber-neon hover:text-black">Check Answers</button>
+                <button onclick="navSection(3)" class="btn-glow py-2 px-6 rounded">Next</button>
+            </div>
+        </section>
+
+        <!-- SECTION 3: ACTIVITY 3 -->
+        <section id="section-3" class="section hidden glass-panel p-6 md:p-8 relative">
+            <h3 class="text-2xl font-display text-cyber-neon mb-4">Activity 3</h3>
+            <p class="mb-4">You will hear an interview with John Harvey and Meredith Jackson, who have just written a book together about collecting things. For questions 15 - 20, choose the answer (A, B, C or D) which fits best according to what you hear.</p>
+            
+            <div class="bg-black/40 p-4 rounded-lg mb-6">
+                <p class="text-sm text-gray-400 mb-2">Play Audio 3</p>
+                <audio controls src="audio3.mp3"></audio>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="act3-questions">
+                <div class="question-block" data-q="q15">
+                    <p class="mb-3">15. John and Meredith share the opinion that, in general, collections</p>
+                    <label class="radio-container">A. don't often have much monetary worth. <input type="radio" name="q15" value="A"><span class="checkmark"></span></label>
+                    <label class="radio-container">B. reflect the life experiences of collectors. <input type="radio" name="q15" value="B"><span class="checkmark"></span></label>
+                    <label class="radio-container">C. aren't defined in terms of quantity. <input type="radio" name="q15" value="C"><span class="checkmark"></span></label>
+                    <label class="radio-container">D. involve a considerable investment of time. <input type="radio" name="q15" value="D"><span class="checkmark"></span></label>
+                    <div class="feedback mt-2 text-sm"></div>
+                </div>
+
+                <div class="question-block" data-q="q16">
+                    <p class="mb-3">16. When asked about collectors' views on the appearance of the objects collected, Meredith highlights</p>
+                    <label class="radio-container">A. the need to have distinctively-coloured items... <input type="radio" name="q16" value="A"><span class="checkmark"></span></label>
+                    <label class="radio-container">B. the strict rules that established collectors set... <input type="radio" name="q16" value="B"><span class="checkmark"></span></label>
+                    <label class="radio-container">C. the willingness of collectors to share information... <input type="radio" name="q16" value="C"><span class="checkmark"></span></label>
+                    <label class="radio-container">D. the importance of how a collection is presented. <input type="radio" name="q16" value="D"><span class="checkmark"></span></label>
+                    <div class="feedback mt-2 text-sm"></div>
+                </div>
+
+                <div class="question-block" data-q="q17">
+                    <p class="mb-3">17. What made John start to collect chairs?</p>
+                    <label class="radio-container">A. a longstanding interest in comfort <input type="radio" name="q17" value="A"><span class="checkmark"></span></label>
+                    <label class="radio-container">B. a childhood instinct for the unusual <input type="radio" name="q17" value="B"><span class="checkmark"></span></label>
+                    <label class="radio-container">C. a wish to improve his academic reputation <input type="radio" name="q17" value="C"><span class="checkmark"></span></label>
+                    <label class="radio-container">D. a curiosity about the principles of their structure <input type="radio" name="q17" value="D"><span class="checkmark"></span></label>
+                    <div class="feedback mt-2 text-sm"></div>
+                </div>
+
+                <div class="question-block" data-q="q18">
+                    <p class="mb-3">18. Why did Meredith buy her first designer scarf?</p>
+                    <label class="radio-container">A. as a reaction to a colleague's criticism <input type="radio" name="q18" value="A"><span class="checkmark"></span></label>
+                    <label class="radio-container">B. in the hope of making a profit <input type="radio" name="q18" value="B"><span class="checkmark"></span></label>
+                    <label class="radio-container">C. in a deliberate show of vanity <input type="radio" name="q18" value="C"><span class="checkmark"></span></label>
+                    <label class="radio-container">D. as a reward for doing a good job <input type="radio" name="q18" value="D"><span class="checkmark"></span></label>
+                    <div class="feedback mt-2 text-sm"></div>
+                </div>
+
+                <div class="question-block" data-q="q19">
+                    <p class="mb-3">19. John views the majority of the chairs in his collection as</p>
+                    <label class="radio-container">A. functional objects to be enjoyed. <input type="radio" name="q19" value="A"><span class="checkmark"></span></label>
+                    <label class="radio-container">B. reminders of a golden age of furniture. <input type="radio" name="q19" value="B"><span class="checkmark"></span></label>
+                    <label class="radio-container">C. talking points to stimulate conversation. <input type="radio" name="q19" value="C"><span class="checkmark"></span></label>
+                    <label class="radio-container">D. precious pieces that need safeguarding... <input type="radio" name="q19" value="D"><span class="checkmark"></span></label>
+                    <div class="feedback mt-2 text-sm"></div>
+                </div>
+
+                <div class="question-block" data-q="q20">
+                    <p class="mb-3">20. John says that giving up collecting</p>
+                    <label class="radio-container">A. would free up valuable space. <input type="radio" name="q20" value="A"><span class="checkmark"></span></label>
+                    <label class="radio-container">B. is unlikely to be an option for him. <input type="radio" name="q20" value="B"><span class="checkmark"></span></label>
+                    <label class="radio-container">C. would be a great loss to his life. <input type="radio" name="q20" value="C"><span class="checkmark"></span></label>
+                    <label class="radio-container">D. might actually be a sensible idea. <input type="radio" name="q20" value="D"><span class="checkmark"></span></label>
+                    <div class="feedback mt-2 text-sm"></div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 flex justify-between items-center no-print">
+                <button onclick="navSection(2)" class="btn-secondary py-2 px-6 rounded">Previous</button>
+                <button onclick="checkAnswers(3)" id="check-btn-3" class="btn-secondary py-2 px-6 rounded text-cyber-neon border-cyber-neon hover:bg-cyber-neon hover:text-black">Check Answers</button>
+                <button onclick="navSection(4)" class="btn-glow py-2 px-6 rounded">Next</button>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ACTIVITY 4 -->
+        <section id="section-4" class="section hidden glass-panel p-6 md:p-8 relative">
+            <h3 class="text-2xl font-display text-cyber-neon mb-4">Activity 4</h3>
+            <p class="mb-4">You will hear five short extracts in which professional dancers are talking about their life in dance companies. While you listen, you must complete both tasks.</p>
+            
+            <div class="bg-black/40 p-4 rounded-lg mb-6">
+                <p class="text-sm text-gray-400 mb-2">Play Audio 4</p>
+                <audio controls src="audio4.mp3"></audio>
+            </div>
+
+            <div class="flex flex-col gap-12" id="act4-questions">
+                
+                <!-- Task 1 -->
+                <div>
+                    <h4 class="font-bold text-xl text-cyber-purple mb-4">Task 1: How each speaker feels before going on stage</h4>
+                    
+                    <!-- Task 1 Options Box -->
+                    <div class="bg-cyber-panel border border-cyber-purple/50 p-4 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm mb-6">
+                        <span><strong>A.</strong> unsure about having practised enough</span>
+                        <span><strong>B.</strong> afraid of letting others down</span>
+                        <span><strong>C.</strong> nervous about remembering all the steps</span>
+                        <span><strong>D.</strong> apprehensive about getting injured</span>
+                        <span><strong>E.</strong> worried about the size of the audience</span>
+                        <span><strong>F.</strong> concerned about potential problems with the costume</span>
+                        <span><strong>G.</strong> anxious about being fit enough</span>
+                        <span><strong>H.</strong> afraid of what dance critics might say</span>
+                    </div>
+
+                    <div class="space-y-4 max-w-sm">
+                        <div class="question-block flex items-center justify-between" data-q="q21">
+                            <span class="font-bold">21. Speaker 1</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q21" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q22">
+                            <span class="font-bold">22. Speaker 2</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q22" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q23">
+                            <span class="font-bold">23. Speaker 3</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q23" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q24">
+                            <span class="font-bold">24. Speaker 4</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q24" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q25">
+                            <span class="font-bold">25. Speaker 5</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q25" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 2 -->
+                <div class="border-t border-cyber-neon/20 pt-8">
+                    <h4 class="font-bold text-xl text-cyber-purple mb-4">Task 2: What each speaker appreciates about their career</h4>
+                    
+                    <!-- Task 2 Options Box -->
+                    <div class="bg-cyber-panel border border-cyber-purple/50 p-4 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm mb-6">
+                        <span><strong>A.</strong> having opportunities for travel</span>
+                        <span><strong>B.</strong> being able to meet a variety of people</span>
+                        <span><strong>C.</strong> becoming famous</span>
+                        <span><strong>D.</strong> earning a lot of money</span>
+                        <span><strong>E.</strong> having new challenges</span>
+                        <span><strong>F.</strong> being exposed to different types of music</span>
+                        <span><strong>G.</strong> following a flexible work schedule</span>
+                        <span><strong>H.</strong> inspiring others</span>
+                    </div>
+
+                    <div class="space-y-4 max-w-sm">
+                        <div class="question-block flex items-center justify-between" data-q="q26">
+                            <span class="font-bold">26. Speaker 1</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q26" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q27">
+                            <span class="font-bold">27. Speaker 2</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q27" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q28">
+                            <span class="font-bold">28. Speaker 3</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q28" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q29">
+                            <span class="font-bold">29. Speaker 4</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q29" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                        <div class="question-block flex items-center justify-between" data-q="q30">
+                            <span class="font-bold">30. Speaker 5</span>
+                            <div class="flex items-center gap-2">
+                                <select id="q30" class="w-20"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option><option value="H">H</option></select>
+                            </div>
+                            <div class="feedback text-sm w-full mt-1 hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-12 flex justify-between items-center no-print">
+                <button onclick="navSection(3)" class="btn-secondary py-2 px-6 rounded">Previous</button>
+                <button onclick="checkAnswers(4)" id="check-btn-4" class="btn-secondary py-2 px-6 rounded text-cyber-neon border-cyber-neon hover:bg-cyber-neon hover:text-black">Check Answers</button>
+                <button onclick="submitTest()" class="bg-cyber-red hover:bg-red-600 text-white font-bold py-2 px-8 rounded shadow-[0_0_15px_rgba(255,0,60,0.5)] transition-all">Submit Test</button>
+            </div>
+        </section>
+
+        <!-- RESULTS SECTION -->
+        <section id="section-results" class="section hidden glass-panel p-6 md:p-10 relative text-center">
+            <h2 class="text-3xl font-display text-cyber-neon mb-2">Assessment Complete</h2>
+            <p class="text-lg text-gray-300 mb-8">Here is a detailed breakdown of your performance.</p>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div class="bg-black/50 p-6 rounded-lg border border-cyber-neon/30">
+                    <h4 class="text-gray-400 text-sm uppercase tracking-wider mb-2">Total Score</h4>
+                    <div class="text-3xl md:text-4xl font-bold text-white"><span id="final-score">0</span> / 30</div>
+                </div>
+                <div class="bg-black/50 p-6 rounded-lg border border-cyber-purple/30">
+                    <h4 class="text-gray-400 text-sm uppercase tracking-wider mb-2">Percentage</h4>
+                    <div class="text-3xl md:text-4xl font-bold text-white"><span id="final-percent">0</span>%</div>
+                </div>
+                <div class="bg-black/50 p-6 rounded-lg border border-yellow-500/30">
+                    <h4 class="text-gray-400 text-sm uppercase tracking-wider mb-2">Scale Score</h4>
+                    <div class="text-3xl md:text-4xl font-bold text-yellow-400" id="final-scale">--</div>
+                </div>
+                <div class="bg-black/50 p-6 rounded-lg border border-cyber-green/30">
+                    <h4 class="text-gray-400 text-sm uppercase tracking-wider mb-2">CEFR Level</h4>
+                    <div class="text-3xl md:text-4xl font-bold text-cyber-green" id="final-cefr">--</div>
+                </div>
+            </div>
+
+            <div class="max-w-md mx-auto mb-10 bg-white/5 p-4 rounded-xl">
+                <canvas id="resultsChart" width="400" height="250"></canvas>
+            </div>
+
+            <div class="text-left bg-cyber-panel border border-cyan-500/20 p-6 rounded-lg mb-8">
+                <h4 class="text-xl font-bold text-cyber-neon mb-3">Recommendations & Feedback</h4>
+                <p id="feedback-text" class="text-gray-300 leading-relaxed"></p>
+            </div>
+
+            <button onclick="generatePDF()" class="btn-glow font-bold py-4 px-10 rounded-lg text-lg no-print">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Generate & Download PDF
+            </button>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    /**
+     * ANSWER KEY
+     * Based on typical Cambridge C1 structure. Replace values if they differ from the image source.
+     */
+    const ANSWER_KEY = {
+        // Activity 1
+        q1: 'B', q2: 'A', q3: 'A', q4: 'A', q5: 'B', q6: 'A',
+        // Activity 2 (Lowercase to handle case-insensitive matching)
+        q7: 'conservation', q8: 'elephant behaviour', q9: 'bus', q10: 'breathtaking',
+        q11: 'solar panels', q12: 'rewarding', q13: 'river', q14: 'unsung heroes',
+        // Activity 3
+        q15: 'B', q16: 'D', q17: 'D', q18: 'A', q19: 'A', q20: 'B',
+        // Activity 4
+        q21: 'C', q22: 'D', q23: 'A', q24: 'H', q25: 'G',
+        q26: 'F', q27: 'A', q28: 'B', q29: 'E', q30: 'H'
+    };
+
+    // State Variables
+    let currentSection = 0;
+    let timerInterval;
+    let timeLeft = 60 * 60; // 60 minutes in seconds
+    let userScore = 0;
+    let checkedActivities = { 1: false, 2: false, 3: false, 4: false };
+
+    // Initialization & Setup
+    function startTest() {
+        const name = document.getElementById('student-name').value.trim();
+        const date = document.getElementById('test-date').value;
+
+        if (!name || !date) {
+            alert("Please enter your name and select a date to begin.");
+            return;
+        }
+
+        document.getElementById('display-name').textContent = name;
+        document.getElementById('display-date').textContent = date;
+        document.getElementById('student-info-display').classList.remove('hidden');
+        document.getElementById('timer-container').classList.remove('hidden');
+        document.getElementById('progress-container').classList.remove('hidden');
+
+        // Start Timer
+        startTimer();
+        
+        // Go to section 1
+        navSection(1);
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Submitting your test automatically.");
+                submitTest();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const s = (timeLeft % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+        
+        if (timeLeft < 300) { // last 5 minutes red
+            document.getElementById('timer').classList.add('text-cyber-red');
+            document.getElementById('timer').classList.remove('text-cyber-neon');
+        }
+    }
+
+    // Navigation
+    function navSection(sectionIndex) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(el => el.classList.add('hidden'));
+        // Show target
+        document.getElementById(`section-${sectionIndex}`).classList.remove('hidden');
+        currentSection = sectionIndex;
+        window.scrollTo(0, 0);
+    }
+
+    // Checking logic
+    function checkAnswers(activityIndex) {
+        if (checkedActivities[activityIndex]) return; // Already checked
+        checkedActivities[activityIndex] = true;
+        
+        let actScore = 0;
+        let actQuestions = 0;
+
+        // Determine range of questions for this activity
+        let startQ, endQ;
+        if (activityIndex === 1) { startQ = 1; endQ = 6; }
+        else if (activityIndex === 2) { startQ = 7; endQ = 14; }
+        else if (activityIndex === 3) { startQ = 15; endQ = 20; }
+        else if (activityIndex === 4) { startQ = 21; endQ = 30; }
+
+        for (let i = startQ; i <= endQ; i++) {
+            let qId = `q${i}`;
+            let correctAns = ANSWER_KEY[qId];
+            let userAns = '';
+            let isCorrect = false;
+
+            const block = document.querySelector(`.question-block[data-q="${qId}"]`);
+            const feedbackEl = block.querySelector('.feedback');
+            
+            // Multiple Choice (Radios)
+            if (activityIndex === 1 || activityIndex === 3) {
+                const checkedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+                if (checkedRadio) userAns = checkedRadio.value;
+                
+                // Disable all radios for this question
+                document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+                
+                isCorrect = (userAns === correctAns);
+            }
+            // Text Input (Fill in blanks)
+            else if (activityIndex === 2) {
+                const inputEl = document.getElementById(qId);
+                userAns = inputEl.value.trim().toLowerCase();
+                inputEl.disabled = true;
+                
+                // Flexible check for Activity 2
+                isCorrect = (userAns === correctAns.toLowerCase());
+                if (isCorrect) inputEl.classList.add('correct-bg');
+                else inputEl.classList.add('incorrect-bg');
+                
+                feedbackEl.classList.remove('hidden');
+            }
+            // Dropdowns (Activity 4)
+            else if (activityIndex === 4) {
+                const selectEl = document.getElementById(qId);
+                userAns = selectEl.value;
+                selectEl.disabled = true;
+                
+                isCorrect = (userAns === correctAns);
+                if (isCorrect) selectEl.classList.add('correct-bg');
+                else selectEl.classList.add('incorrect-bg');
+                
+                feedbackEl.classList.remove('hidden');
+                feedbackEl.style.display = 'block'; // force layout update
+            }
+
+            // Update UI with correctness
+            if (isCorrect) {
+                actScore++;
+                feedbackEl.innerHTML = `<span class="correct-text">✓ Correct</span>`;
+            } else {
+                feedbackEl.innerHTML = `<span class="incorrect-text">✗ Incorrect.</span> <span class="text-gray-300 ml-2">Correct answer: <strong>${correctAns}</strong></span>`;
+            }
+            
+            actQuestions++;
+        }
+
+        userScore += actScore;
+
+        // Disable Check Button
+        const btn = document.getElementById(`check-btn-${activityIndex}`);
+        btn.disabled = true;
+        btn.textContent = `Checked (${actScore}/${actQuestions})`;
+        
+        updateProgressBar();
+    }
+
+    function updateProgressBar() {
+        let checkedCount = Object.values(checkedActivities).filter(Boolean).length;
+        let percent = (checkedCount / 4) * 100;
+        document.getElementById('progress-fill').style.width = `${percent}%`;
+    }
+
+    function submitTest() {
+        clearInterval(timerInterval);
+
+        // Force check any unchecked sections
+        for (let i = 1; i <= 4; i++) {
+            if (!checkedActivities[i]) {
+                checkAnswers(i);
+            }
+        }
+
+        // Calculate final data
+        const percent = Math.round((userScore / 30) * 100);
+        let cefr = 'Below B2';
+        let feedback = '';
+
+        // Cambridge English Scale mapping for C1 Advanced Listening (30 items)
+        const scaleMapping = [
+            120, 125, 130, 135, 140, 145, 150, 152, 154, 156, 158, // 0-10
+            160, 162, 164, 166, 168, 171, 175,                     // 11-17 (B2 First)
+            180, 182, 185, 188, 191, 194, 196, 198,                // 18-25 (C1 Advanced)
+            200, 203, 206, 208, 210                                // 26-30 (C2 Proficiency)
+        ];
+        const scaleScore = scaleMapping[userScore];
+
+        if (userScore >= 26) {
+            cefr = 'C2 Proficiency';
+            feedback = "Outstanding performance! You have demonstrated exceptional listening comprehension skills, easily handling complex information and nuanced meanings.";
+        } else if (userScore >= 18) {
+            cefr = 'C1 Advanced';
+            feedback = "Great job! You have solidly achieved C1 level. You can follow complex discussions and understand detailed information effectively. To reach C2, practice with highly abstract and colloquial materials.";
+        } else if (userScore >= 11) {
+            cefr = 'B2 First';
+            feedback = "Good effort. Your score indicates a B2 level. You grasp the main ideas of complex text, but might struggle with nuanced implicit meanings. Focus on expanding advanced vocabulary and listening to diverse accents.";
+        } else {
+            cefr = 'Below B2';
+            feedback = "Keep practicing! You may find C1 level audio too fast or complex right now. Start by building your vocabulary and listening to B2-level materials before moving up.";
+        }
+
+        document.getElementById('final-score').textContent = userScore;
+        document.getElementById('final-percent').textContent = percent;
+        document.getElementById('final-scale').textContent = scaleScore;
+        document.getElementById('final-cefr').textContent = cefr;
+        document.getElementById('feedback-text').textContent = feedback;
+
+        navSection('results');
+        renderChart(userScore, 30 - userScore);
+    }
+
+    function renderChart(correct, incorrect) {
+        const ctx = document.getElementById('resultsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Correct', 'Incorrect'],
+                datasets: [{
+                    data: [correct, incorrect],
+                    backgroundColor: ['#00FF66', '#FF003C'],
+                    borderColor: ['rgba(0,255,102,0.2)', 'rgba(255,0,60,0.2)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: { duration: 0 }, // Disable animation so html2pdf captures it instantly
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#E2E8F0' }
+                    }
+                }
+            }
+        });
+    }
+
+    function generatePDF() {
+        // Force window to scroll to top to prevent blank space in html2canvas
+        window.scrollTo(0, 0);
+        
+        // Preparation: Set body to a mode that unhides all sections for the PDF
+        document.body.classList.add('pdf-export-mode');
+        
+        // Hide actual container scroll temporarily 
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'visible';
+
+        // Get the entire App Container
+        const element = document.getElementById('app-container');
+
+        // PDF Options
+        const opt = {
+            margin:       10,
+            filename:     `C1_Listening_Result_${document.getElementById('student-name').value.replace(/ /g,"_")}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Generate
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Revert DOM changes after generation
+            document.body.classList.remove('pdf-export-mode');
+            document.body.style.overflow = originalOverflow;
+        });
+    }
+
+</script>
+</body>
+</html>
